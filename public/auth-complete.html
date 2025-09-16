@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Authentication Complete</title>
+  </head>
+  <body>
+    <script>
+      (function () {
+        try {
+          if (window.opener) {
+            try { window.opener.postMessage({ type: 'EASY_AUTH_DONE' }, window.location.origin); } catch (e) {}
+            window.close();
+          } else {
+            window.location.replace('/');
+          }
+        } catch (e) {
+          window.location.replace('/');
+        }
+      })();
+    </script>
+    <noscript>Authentication complete. You can close this window.</noscript>
+  </body>
+  </html>
+
