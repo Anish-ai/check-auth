@@ -1,0 +1,18 @@
+import { initializeApp } from 'firebase/app'
+import { getAuth } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCShen9yutsSZEqyGpHpL4sTwi9-xxAt0U",
+    authDomain: "studhub-iitp.firebaseapp.com",
+    projectId: "studhub-iitp",
+    storageBucket: "studhub-iitp.firebasestorage.app",
+    messagingSenderId: "720625783074",
+    appId: "1:720625783074:web:0a773b39c6315ac52a957b",
+    measurementId: "G-29Q01V6MXP"
+};
+
+export const app = initializeApp(firebaseConfig)
+export const firebaseAuth = getAuth(app)
+export const db = getFirestore(app)
+
