@@ -1,10 +1,19 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
-import { Layout } from './components/Layout'
+import { Layout } from './components/NewLayout'
 import { LoginPage } from './components/LoginPage'
-import { StudentDashboard } from './components/StudentDashboard'
-import { ActivityForm } from './components/ActivityForm'
+import { Dashboard } from './components/Dashboard'
+import { Profile } from './components/Profile'
+import { Projects } from './components/Projects'
+import { EducationSection } from './components/Education'
+import { Courses } from './components/Courses'
+import { Achievements } from './components/Achievements'
+import { Skills } from './components/Skills'
+import { Positions } from './components/Positions'
+import { Certifications } from './components/Certifications'
 import { LoadingSpinner } from './components/ui'
+import { ensureFirebaseReady } from './firebase'
 
 function AppContent() {
   const { user, loading } = useAuth()
@@ -28,44 +37,26 @@ function AppContent() {
     <Layout>
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/dashboard" element={<StudentDashboard />} />
-        <Route path="/activities" element={<ActivityForm />} />
-        <Route 
-          path="/portfolio" 
-          element={
-            <div className="text-center py-12">
-              <div className="text-6xl mb-4">📄</div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Portfolio Coming Soon</h2>
-              <p className="text-gray-600">This feature is under development and will be available soon.</p>
-            </div>
-          } 
-        />
-        <Route 
-          path="/verification" 
-          element={
-            <div className="text-center py-12">
-              <div className="text-6xl mb-4">✅</div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Verification Queue Coming Soon</h2>
-              <p className="text-gray-600">This feature is under development and will be available soon.</p>
-            </div>
-          } 
-        />
-        <Route 
-          path="/admin" 
-          element={
-            <div className="text-center py-12">
-              <div className="text-6xl mb-4">⚙️</div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Admin Panel Coming Soon</h2>
-              <p className="text-gray-600">This feature is under development and will be available soon.</p>
-            </div>
-          } 
-        />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/education" element={<EducationSection />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/achievements" element={<Achievements />} />
+        <Route path="/skills" element={<Skills />} />
+        <Route path="/positions" element={<Positions />} />
+        <Route path="/certifications" element={<Certifications />} />
       </Routes>
     </Layout>
   )
 }
 
 function App() {
+  // Initialize Firebase collections on app start
+  useEffect(() => {
+    ensureFirebaseReady().catch(console.warn)
+  }, [])
+
   return (
     <AuthProvider>
       <Router>

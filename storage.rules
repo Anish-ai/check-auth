@@ -1,0 +1,26 @@
+rules_version = '2';
+
+// Cloud Storage for Firebase rules
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Users can upload and read their profile photos
+    match /profiles/{userId}/photo {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Users can upload and read project files
+    match /projects/{userId}/{allPaths=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Users can upload and read certificate files
+    match /certificates/{userId}/{allPaths=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // General user files folder
+    match /users/{userId}/{allPaths=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}

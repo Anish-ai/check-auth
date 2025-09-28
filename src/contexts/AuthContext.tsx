@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
-import { onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
 import type { User } from 'firebase/auth'
 import { firebaseAuth } from '../firebase'
 import { doc, getDoc } from 'firebase/firestore'
@@ -24,6 +24,7 @@ interface AuthContextType {
   isClubLead: boolean
   isFaculty: boolean
   isAdmin: boolean
+  logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -58,6 +59,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe()
   }, [])
 
+  const logout = async () => {
+    await signOut(firebaseAuth)
+  }
+
   const isStudent = userProfile?.role === 'student' || !userProfile?.role
   const isClubLead = userProfile?.role === 'club_lead'
   const isFaculty = userProfile?.role === 'faculty'
@@ -71,7 +76,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isStudent,
       isClubLead,
       isFaculty,
-      isAdmin
+      isAdmin,
+      logout
     }}>
       {children}
     </AuthContext.Provider>
